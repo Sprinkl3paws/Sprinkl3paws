@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Visitor Count (CountAPI)</title>
+  <style>
+    .visitor-card { font-family: system-ui, Arial; display:inline-block; padding:12px 18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+    .visitor-count { font-size:28px; font-weight:600; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div class="visitor-card">
+    <div>Page visits</div>
+    <div id="visitor-count" class="visitor-count">—</div>
+  </div>
+
+  <script>
+    // Use your GitHub username + repo for a unique namespace
+    // Example: "Sprinkl3paws_sprinkl3paws"
+    const NAMESPACE = 'Sprinkl3paws_sprinkl3paws';
+    const KEY = 'homepage'; // change if you want separate counters for pages
+    const API_BASE = 'https://api.countapi.xyz';
+    const HIT_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours: avoid counting same visitor too often
+
+    function now() { return Date.now(); }
+
+    async function hitCount() {
+      const url = `${API_BASE}/hit/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('CountAPI hit failed');
+      return res.json();
+    }
+
+    async function getCount() {
+      const url = `${API_BASE}/get/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('CountAPI get failed');
+      return res.json();
+    }
+
+    async function updateUIWithValue(val) {
+      document.getElementById('visitor-count').textContent = String(val ?? 0);
+    }
+
+    async function initCounter() {
+      try {
+        // simple per-browser rate-limiting: only 'hit' if we haven't hit in the last HIT_TTL_MS
+        const storageKey = `countapi_last_hit_${NAMESPACE}_${KEY}`;
+        const lastHit = Number(localStorage.getItem(storageKey) || 0);
+
+        if (now() - lastHit > HIT_TTL_MS) {
+          // increment counter and store timestamp
+          const r = await hitCount();
+          await updateUIWithValue(r.value);
+          localStorage.setItem(storageKey, String(now()));
+        } else {
+          // don't increment — just fetch current total
+          const r = await getCount();
+          await updateUIWithValue(r.value);
+        }
+      } catch (err) {
+        // fallback: try to get count, else show error
+        try {
+          const r = await getCount();
+          await updateUIWithValue(r.value);
+        } catch {
+          document.getElementById('visitor-count').textContent = 'Error';
+          console.error(err);
+        }
+      }
+    }
+
+    initCounter();
+  </script>
+</body>
+</html>
