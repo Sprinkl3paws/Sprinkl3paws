@@ -1,7 +1,7 @@
                                                                            Hi Hello! 
                                                                I'm Teal Tiger!! / Teal for short!!
 
-                                                                   **I LUV WARR CATS !!**
+                                                                     _I LUV WARR CATS !!_
                                                                    Atla/Lok fans please int 
                                                              C+H frelly unless I'm w/ firends then ask
 
