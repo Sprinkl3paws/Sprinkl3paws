@@ -14,6 +14,8 @@
                                                    ♪  𝐃𝐍𝚰 𝗂𝖿 you... ♪
                            Are racist, Joke about serious topics, are homophobic, are a 
                                        Pro/Darkshipper, Or are just toxic!!
+
+                                       **IF YOU DONT LIKE ME JUST BLOCK ME <3**
                                     ──────────────────── ୨୧ ────────────────────
                                     
                                                   ♪   𝐈 𝐋𝐈𝐊𝐄 ... ♪
